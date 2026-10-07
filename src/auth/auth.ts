@@ -1,6 +1,6 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { bearer, jwt } from 'better-auth/plugins';
+import { bearer } from 'better-auth/plugins';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { envSchema } from '../config/env.schema';
@@ -163,19 +163,11 @@ export const auth = betterAuth({
     },
   },
 
-  // Both plugins exist for the SAME session, not two parallel systems:
-  // - bearer(): lets mobile/API clients that can't use cookies send
-  //   `Authorization: Bearer <token>` instead. The sign-in response
-  //   exposes that token via a `set-auth-token` response header for
-  //   exactly this purpose.
-  // - jwt(): mints a real, stateless, JWKS-verifiable JWT from an active
-  //   session via `GET /api/auth/token`, for cases that genuinely need a
-  //   portable signed credential (e.g. a future third-party integration)
-  //   rather than hitting this database on every request. Boutica's own
-  //   API does not verify these itself — it validates sessions directly
-  //   via `auth.api.getSession`, the same as every other request; the
-  //   JWKS endpoint is there for whoever else eventually needs it.
-  plugins: [bearer(), jwt()],
+  // bearer(): lets mobile/API clients that can't use cookies send
+  // `Authorization: Bearer <token>` instead. The sign-in response
+  // exposes that token via a `set-auth-token` response header for
+  // exactly this purpose.
+  plugins: [bearer()],
 
   // Better Auth's own defaults already rate-limit /sign-in* and /sign-up*
   // more tightly than this app's old @Throttle(5/60s) on login (see
