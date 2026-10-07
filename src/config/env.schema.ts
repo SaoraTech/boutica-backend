@@ -71,4 +71,16 @@ export const envSchema = z
     path: ['CORS_ORIGIN'],
   });
 
+// Bridge for NestJS ConfigModule.forRoot({ validationSchema: envSchema })
+// which expects a schema object with a Joi-like .validate() function.
+Object.assign(envSchema, {
+  validate(config: Record<string, unknown>) {
+    const result = envSchema.safeParse(config);
+    if (result.success) {
+      return { value: result.data };
+    }
+    return { error: result.error };
+  },
+});
+
 export type Env = z.infer<typeof envSchema>;

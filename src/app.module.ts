@@ -36,7 +36,7 @@ import { HealthModule } from './modules/health/health.module';
     // automatically: every route is protected by default, the same as
     // before, opted out per-route with @AllowAnonymous() (was @Public())
     // — see health.controller.ts. See AUDIT_REPORT.md section H.
-    AuthModule.forRoot({ auth }),
+    AuthModule.forRoot(auth),
     CatalogModule,
     InventoryModule,
     SalesModule,
