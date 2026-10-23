@@ -59,8 +59,8 @@ async function bootstrap() {
   app.enableCors({ origin: corsOrigin ?? ['http://localhost:5173'], credentials: true });
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Boutica API')
-    .setDescription('Boutica commerce management API')
+    .setTitle('Boutica Cloud API')
+    .setDescription('Boutica Cloud commerce management API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
